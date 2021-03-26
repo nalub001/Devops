@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# assign the action
+ACTION=${1:-launch}
+
+# display first provided argument
+if [ -z "$1" ]
+	then
+		echo "No argument supplied, default action is: $ACTION"
+	else
+		echo "Initiating $ACTION" 
+	fi
+

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+sudo wget -O /var/www/html/wp.tar.gz https://wordpress.org/latest.tar.gz
+sudo tar xf /var/www/html/wp.tar.gz -C /var/www/html/
+sudo rm -rf /var/www/html/wp.tar.gz
+sudo cp /var/www/html/wordpress/wp-config-sample.php /var/www/html/wordpress/wp-config.php
+
+sudo groupadd www
+sudo usermod -a -G www apache
+sudo chown -R apache:www /var/www
+sudo chmod 2775 /var/www
+sudo find /var/www -type d -exec chmod 2775 {} \;
+sudo find /var/www -type f -exec chmod 0664 {} \;
+sudo chmod -R 777 /var/www/html/wordpress/
+
+sed 's/database_name_here/wordpress/' -i /var/www/html/wordpress/wp-config.php
+sed 's/username_here/wpdadmin/' -i /var/www/html/wordpress/wp-config.php
+sed 's/password_here/minnesota/' -i /var/www/html/wordpress/wp-config.php
+sed 's/localhost/wordpressdb.cbpthvfxrgqn.us-west-2.rds.amazonaws.com/' -i /var/www/html/wordpress/wp-config.php
+sudo chmod -R 777 /etc/httpd/conf/
+sed '/Directory \"\/var\/www\/html/,/AllowOverride None/s/AllowOverride None/AllowOverride All/' -i /etc/httpd/conf/httpd.conf
+sudo systemctl restart httpd.service
+

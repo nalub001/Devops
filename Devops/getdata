@@ -1,0 +1,3 @@
+#!/bin/bash
+sudo cp /var/www/html/wordpress/wp-config.php /home/ec2-user/wpinstall/wp-config.php
+sudo cp /var/log/httpd/access_log /home/ec2-user/wpinstall/access_log
